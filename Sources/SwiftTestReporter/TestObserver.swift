@@ -38,7 +38,7 @@ extension TestObserver: XCTestObservation {
             } else {
                 fileName = "<unknown file>"
             }
-            let enrichedDescription = String(format: "%@ (%@:%d)", description, fileName, line)
+            let enrichedDescription = "\(description) (\(fileName):\(line))"
             
             if testCase.testRun!.unexpectedExceptionCount > 0 {
                 currentTestSuite.markTest(testCase, error: Error(message: enrichedDescription))

@@ -13,3 +13,5 @@
 .build
 SwiftTestReporter.xcodeproj
 tests.xml
+
+.swiftpm

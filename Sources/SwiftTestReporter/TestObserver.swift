@@ -30,12 +30,13 @@ extension TestObserver: XCTestObservation {
 
     // MARK: - Test case
 
-    public func testCase(_ testCase: XCTestCase, didFailWithDescription description: String, inFile _: String?, atLine _: Int) {
+    public func testCase(_ testCase: XCTestCase, didFailWithDescription description: String, inFile file: String?, atLine line: Int) {
         if let currentTestSuite = currentTestSuite {
+            let enrichedDescription = String(format: "%@ (%@:%d)", description, file ?? "?", line)
             if testCase.testRun!.unexpectedExceptionCount > 0 {
-                currentTestSuite.markTest(testCase, error: Error(message: description))
+                currentTestSuite.markTest(testCase, error: Error(message: enrichedDescription))
             } else {
-                currentTestSuite.markTest(testCase, failure: Failure(message: description))
+                currentTestSuite.markTest(testCase, failure: Failure(message: enrichedDescription))
             }
         }
     }

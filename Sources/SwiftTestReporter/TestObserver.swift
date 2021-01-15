@@ -32,7 +32,14 @@ extension TestObserver: XCTestObservation {
 
     public func testCase(_ testCase: XCTestCase, didFailWithDescription description: String, inFile file: String?, atLine line: Int) {
         if let currentTestSuite = currentTestSuite {
-            let enrichedDescription = String(format: "%@ (%@:%d)", description, file ?? "?", line)
+            let fileName: String
+            if let file = file {
+                fileName = URL(fileURLWithPath: file).lastPathComponent
+            } else {
+                fileName = "<unknown file>"
+            }
+            let enrichedDescription = String(format: "%@ (%@:%d)", description, fileName, line)
+            
             if testCase.testRun!.unexpectedExceptionCount > 0 {
                 currentTestSuite.markTest(testCase, error: Error(message: enrichedDescription))
             } else {
